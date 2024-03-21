@@ -1,0 +1,19 @@
+nb-card {
+  nb-card-body {
+    font-size: .8rem;
+    cursor: pointer;
+  }
+}
+
+.bot-name {
+  flex-wrap: wrap;
+  max-width: 65%;
+  position: relative;
+  top: -10px;
+  cursor: pointer;
+}
+
+.bot-menu {
+  opacity: 0.9;
+  font-size: 0.9rem;
+}

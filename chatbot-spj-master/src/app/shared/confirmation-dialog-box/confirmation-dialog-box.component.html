@@ -1,0 +1,16 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>
+      <h5>{{ title }}</h5>
+    </nb-card-header>
+    <nb-card-body>{{ message }}</nb-card-body>
+    <nb-card-footer>
+      <div class="float-right">
+        <button class="mr-2" *ngIf="showCancelButton" nbButton outline status="primary" (click)="ref.close(false)">
+          {{ cancelText }}
+        </button>
+        <button nbButton [status]="type" (click)="ref.close(true)">{{ okText }}</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

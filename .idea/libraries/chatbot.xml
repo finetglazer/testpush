@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="chatbot">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/chatbot-spj-master/chatbot.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

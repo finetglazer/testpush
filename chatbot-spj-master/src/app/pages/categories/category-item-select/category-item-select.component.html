@@ -1,0 +1,8 @@
+<ng-select
+  [items]="items"
+  bindLabel="itemName"
+  [placeholder]="'Select category item' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleCategoryItemChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

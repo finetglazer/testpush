@@ -1,0 +1,380 @@
+<ng-template #dialog>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold">{{ actionTitle }}</span>
+      <nb-icon icon="close-outline" (click)="dialogRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="serviceCode" class="required" translate>Service code</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="serviceCode"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.serviceCode.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.serviceCode.errors.required" translate>
+                Service code is required
+              </div>
+              <div *ngIf="fc.serviceCode.errors.maxlength" translate>
+                Service code max length is 200
+              </div>
+              <div *ngIf="fc.serviceCode.errors.pattern" translate>
+                Service code can only contains characters from [a-zA-Z0-9-_.]
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="url" class="required" translate>URL</label>
+            <input type="text" nbInput fullWidth formControlName="url" [ngClass]="submitted ? 'ng-submitted' : ''" />
+            <div *ngIf="submitted && fc.url.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.url.errors.required" translate>
+                URL is required
+              </div>
+              <div *ngIf="fc.url.errors.maxlength" translate>
+                URL max length is 600
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="urlTest" class="required" translate>URL test</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="urlTest"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.urlTest.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.urlTest.errors.required" translate>
+                URL Test is required
+              </div>
+              <div *ngIf="fc.urlTest.errors.maxlength" translate>
+                URL Test max length is 600
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="project" class="required" translate>Project</label>
+            <ngx-service-project-select
+              formControlName="project"
+              [firstOptionAsDefault]="action === 'add'"
+              [submitted]="submitted"
+            ></ngx-service-project-select>
+            <div *ngIf="submitted && fc.project.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.project.errors.required" translate>
+                Project is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="request" translate>Request</label>
+            <textarea
+              nbInput
+              rows="5"
+              fullWidth
+              formControlName="request"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></textarea>
+            <div *ngIf="submitted && fc.request.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.request.errors.maxlength" translate>
+                Request max length is 4000
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="response" translate>Template response</label>
+            <textarea
+              nbInput
+              rows="5"
+              fullWidth
+              formControlName="response"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></textarea>
+            <div *ngIf="submitted && fc.response.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.response.errors.maxlength" translate>
+                Template response max length is 4000
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <label for="serviceType" class="required" translate>Service type</label>
+            <ngx-service-type-select formControlName="type" [submitted]="submitted"></ngx-service-type-select>
+            <div *ngIf="submitted && fc.type.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.type.errors.required" translate>
+                Service type is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="method" translate>Method</label>
+            <ngx-service-method-select formControlName="method" [submitted]="submitted"></ngx-service-method-select>
+          </div>
+          <div class="col-md-3">
+            <label for="contentType" translate>Content type</label>
+            <ngx-service-content-type-select
+              formControlName="contentType"
+              [isInvalid]="submitted && fc.project.errors"
+              [submitted]="submitted"
+            ></ngx-service-content-type-select>
+          </div>
+          <div class="col-md-3">
+            <label for="env" class="required" translate>Environment</label>
+            <ng-select
+              [items]="[
+                { label: 'Production' | translate, value: 1 },
+                { label: 'Test' | translate, value: 0 }
+              ]"
+              bindLabel="label"
+              bindValue="value"
+              [placeholder]="'Select environment' | translate"
+              formControlName="env"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></ng-select>
+            <div *ngIf="submitted && fc.env.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.env.errors.required" translate>
+                Environment is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <label for="authType" translate>Auth type</label>
+            <ngx-service-auth-type-select
+              formControlName="authType"
+              [firstOptionAsDefault]="action === 'add'"
+              [submitted]="submitted"
+            ></ngx-service-auth-type-select>
+          </div>
+          <div class="col-md-3">
+            <label for="username" [ngClass]="{ required: !!fc.authType.value }" translate>Username</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="userNameValue"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.userNameValue.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.userNameValue.errors.required" translate>
+                Username is required
+              </div>
+              <div *ngIf="fc.userNameValue.errors.maxlength" translate>
+                Username max length is 100
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="password" [ngClass]="{ required: !!fc.authType.value }" translate>Password</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="passwordValue"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.passwordValue.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.passwordValue.errors.required" translate>
+                Password is required
+              </div>
+              <div *ngIf="fc.passwordValue.errors.maxlength" translate>
+                Password max length is 100
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="description" translate>Description</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="description"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.description.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.description.errors.maxlength" translate>
+                Description max length is 200
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <label class="d-block" for="inputUseFreemaker" translate>Request uses freemaker</label>
+            <nb-toggle formControlName="inputUseFreemaker"></nb-toggle>
+          </div>
+          <div class="col-md-3">
+            <label class="d-block" for="status" translate>Status</label>
+            <nb-toggle formControlName="status" status="primary" [disabled]="disableStatusControl"></nb-toggle>
+          </div>
+          <div class="col-md-3">
+            <label class="d-block" for="isEscape" translate>Is escape</label>
+            <nb-toggle formControlName="isEscape"></nb-toggle>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button
+              class="mr-2"
+              type="submit"
+              nbButton
+              status="primary"
+              [disabled]="submitted && form.invalid"
+              translate
+            >
+              Save
+            </button>
+            <button type="button" nbButton status="warning" (click)="dialogRef.close()" translate>Close</button>
+          </div>
+        </div>
+
+        <div class="row mt-5 mb-3">
+          <div class="col-12 mb-4">
+            <span class="d-inline-block bold" translate>Service params mapping</span>
+            <nb-icon
+              id="add-mapping"
+              icon="plus-outline"
+              status="primary"
+              class="float-right"
+              (click)="addMapping()"
+            ></nb-icon>
+          </div>
+          <div class="col-12">
+            <ngx-custom-bootstrap-table clazz="table table-sm">
+              <thead>
+                <th class="required" translate>Business Param</th>
+                <th translate>Bot Param</th>
+                <th class="required" translate>Location</th>
+                <th translate>Default value</th>
+                <th class="required" translate>Param type</th>
+                <th translate>Actions</th>
+              </thead>
+              <tbody formArrayName="mapServiceParams">
+                <tr *ngFor="let control of mapServiceParams.controls; let i = index">
+                  <ng-container [formGroupName]="i">
+                    <td class="text-left align-baseline">
+                      <input
+                        type="text"
+                        formControlName="businessParam"
+                        nbInput
+                        fullWidth
+                        [ngClass]="submitted ? 'ng-submitted' : ''"
+                      />
+                      <div
+                        *ngIf="submitted && mapServiceParams.controls[i].get('businessParam').errors"
+                        class="invalid-feedback d-block"
+                      >
+                        <div *ngIf="mapServiceParams.controls[i].get('businessParam').errors.required" translate>
+                          Business param is required
+                        </div>
+                        <div *ngIf="mapServiceParams.controls[i].get('businessParam').errors.maxlength" translate>
+                          Business param max length is 200
+                        </div>
+                        <div *ngIf="mapServiceParams.controls[i].get('businessParam').errors?.unique" translate>
+                          Business param already exists
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-left align-baseline">
+                      <input
+                        type="text"
+                        formControlName="botParam"
+                        nbInput
+                        fullWidth
+                        [ngClass]="submitted ? 'ng-submitted' : ''"
+                      />
+                      <div
+                        *ngIf="submitted && mapServiceParams.controls[i].get('botParam').errors"
+                        class="invalid-feedback d-block"
+                      >
+                        <div *ngIf="mapServiceParams.controls[i].get('botParam').errors.maxlength" translate>
+                          Bot param max length is 200
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-left align-baseline" style="max-width: 150px;">
+                      <ngx-service-location-select
+                        formControlName="location"
+                        [firstOptionAsDefault]="action === 'add'"
+                        [submitted]="submitted"
+                      ></ngx-service-location-select>
+                      <div
+                        *ngIf="submitted && mapServiceParams.controls[i].get('location').errors"
+                        class="invalid-feedback d-block"
+                      >
+                        <div *ngIf="mapServiceParams.controls[i].get('location').errors.required" translate>
+                          Location is required
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-left align-baseline">
+                      <input
+                        type="text"
+                        formControlName="defaultValue"
+                        nbInput
+                        fullWidth
+                        [ngClass]="submitted ? 'ng-submitted' : ''"
+                      />
+                      <div
+                        *ngIf="submitted && mapServiceParams.controls[i].get('defaultValue').errors"
+                        class="invalid-feedback d-block"
+                      >
+                        <div *ngIf="mapServiceParams.controls[i].get('defaultValue').errors.maxlength" translate>
+                          Default value max length is 200
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-left align-baseline">
+                      <ng-select
+                        [items]="[
+                          { label: 'Body' | translate, value: 1 },
+                          { label: 'Header' | translate, value: 2 }
+                        ]"
+                        bindLabel="label"
+                        bindValue="value"
+                        [placeholder]="'Select type' | translate"
+                        formControlName="type"
+                        [ngClass]="submitted ? 'ng-submitted' : ''"
+                      ></ng-select>
+                      <div
+                        *ngIf="submitted && mapServiceParams.controls[i].get('type').errors"
+                        class="invalid-feedback d-block"
+                      >
+                        <div *ngIf="mapServiceParams.controls[i].get('type').errors.required" translate>
+                          Type is required
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <nb-icon
+                        class="mapping-actions mr-2"
+                        icon="copy-outline"
+                        status="primary"
+                        (click)="duplicateMapping(i)"
+                      ></nb-icon>
+                      <nb-icon
+                        class="mapping-actions"
+                        icon="close-outline"
+                        status="danger"
+                        (click)="removeMapping(i)"
+                      ></nb-icon>
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </ngx-custom-bootstrap-table>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

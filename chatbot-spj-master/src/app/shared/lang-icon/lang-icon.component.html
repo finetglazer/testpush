@@ -1,0 +1,4 @@
+<span class="d-flex align-items-center" [title]="langMap[lang]?.title">
+  <i style="height: 20px;" [class]="langMap[lang]?.iconClass"></i>
+  <span style="font-size: 0.75rem;" class="font-weight-light ml-1" *ngIf="showTitle">{{ langMap[lang].title }}</span>
+</span>

@@ -1,0 +1,205 @@
+<nb-card>
+  <nb-card-header>
+    <span class="d-inline-block bold" translate>Category management</span>
+    <button nbButton size="small" status="primary" class="float-right" (click)="editDialog.open('add')">
+      <span translate>Add</span>
+      <nb-icon icon="plus-outline"></nb-icon>
+    </button>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <label for="itemName" translate>Name</label>
+        <input type="text" nbInput fullWidth [(ngModel)]="filter.itemName" />
+      </div>
+      <div class="col-md-4">
+        <label for="itemCode" translate>Code</label>
+        <input type="text" nbInput fullWidth [(ngModel)]="filter.itemCode" />
+      </div>
+      <div class="col-md-4">
+        <label for="categoryId" translate>Category type</label>
+        <ngx-category-select
+          [categoryValue]="filter.categoryId"
+          (onCategoryValueChange)="filter.categoryId = $event"
+        ></ngx-category-select>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <label for="status" translate>Status</label>
+        <ngx-category-status-select
+          [statusValue]="filter.status"
+          (onStatusValueChange)="filter.status = $event"
+        ></ngx-category-status-select>
+      </div>
+      <div class="col-md-4">
+        <label for="categoryParentId" translate>Parent category type</label>
+        <ngx-category-select
+          [categoryValue]="filter.categoryParentId"
+          (onCategoryValueChange)="filter.categoryParentId = $event"
+        ></ngx-category-select>
+      </div>
+      <div class="col-md-4">
+        <label for="parentId" translate>Parent</label>
+        <ngx-category-item-select
+          [categoryId]="filter.categoryParentId"
+          [itemValue]="filter.parentId"
+          (onItemValueChange)="filter.parentId = $event"
+        ></ngx-category-item-select>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12 text-center">
+        <button nbButton status="primary" class="mr-3" translate (click)="search()">
+          Search
+        </button>
+        <button nbButton status="primary" translate (click)="export()">
+          Export file
+        </button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-header>
+    <span class="bold" translate>Search result</span>
+  </nb-card-header>
+  <nb-card-body>
+    <ngx-custom-bootstrap-table clazz="table table-sm">
+      <thead>
+        <th class="px-3" translate>No.</th>
+        <th translate>Actions</th>
+        <th class="text-left" translate>Name</th>
+        <th class="text-left" translate>Code</th>
+        <th class="text-left" translate>Value</th>
+        <th class="text-left" translate>Category</th>
+        <th class="text-left" translate>Parent</th>
+        <th class="text-left px-3" translate>Status</th>
+        <th class="text-left" translate>Update user</th>
+        <th class="text-left" translate>Update time</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of categories; let i = index">
+          <td>
+            {{ pageSize * (page - 1) + i + 1 }}
+          </td>
+          <td class="px-0">
+            <!-- icon="close-outline" -->
+            <nb-icon
+              icon="edit-outline"
+              status="primary"
+              class="mr-2 action-btn"
+              (click)="editDialog.open('edit', item)"
+              ></nb-icon>
+            <!-- icon="edit-outline" -->
+            <nb-icon
+              icon="trash-outline"
+              status="danger"
+              class="action-btn"
+              (click)="confirmDelete.open(item)"
+            ></nb-icon>
+          </td>
+          <td class="text-left">
+            {{ item.itemName }}
+          </td>
+          <td class="text-left">
+            {{ item.itemCode }}
+          </td>
+          <td class="text-left">
+            {{ item.itemValue }}
+          </td>
+          <td class="text-left">
+            {{ item.categoryName }}
+          </td>
+          <td class="text-left">
+            {{ item.parentName }}
+          </td>
+          <td class="text-left">
+            {{ (item.status === 1 ? 'Active' : 'Inactive') | translate }}
+          </td>
+          <td class="text-left">
+            {{ item.updateUser }}
+          </td>
+          <td class="text-left">
+            {{ item.updateTime | date: 'dd/MM/yyyy HH:mm:ss' }}
+          </td>
+        </tr>
+        <tr *ngIf="categories.length === 0">
+          <td class="text-center text-muted" colspan="11">
+            <span translate>No data</span>
+          </td>
+        </tr>
+      </tbody>
+    </ngx-custom-bootstrap-table>
+    <div *ngIf="categories.length > 0" class="row justify-content-md-between align-items-md-center mt-2">
+      <div class="col-sm-12 col-md-5">
+        <div class="text-md-left float-md-left">
+          <ngb-pagination
+            #pagin
+            [collectionSize]="total"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [maxSize]="5"
+            class="custom-paging"
+            [boundaryLinks]="true"
+            (pageChange)="handlePageChange($event)"
+          >
+            <ng-template ngbPaginationFirst>
+              <nb-icon outline icon="arrowhead-left-outline"></nb-icon>
+            </ng-template>
+            <ng-template ngbPaginationLast>
+              <nb-icon outline icon="arrowhead-right-outline"></nb-icon>
+            </ng-template>
+            <ng-template ngbPaginationPrevious>
+              <nb-icon outline icon="arrow-ios-back-outline"></nb-icon>
+            </ng-template>
+            <ng-template ngbPaginationNext>
+              <nb-icon outline icon="arrow-ios-forward-outline"></nb-icon>
+            </ng-template>
+          </ngb-pagination>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-5 text-right">
+        <nb-select class="mr-3" size="small" [ngModel]="pageSize" (ngModelChange)="handlePageSizeChange($event)">
+          <nb-option [value]="ps" *ngFor="let ps of allowedPageSizes">{{ ps }}</nb-option>
+        </nb-select>
+        <!-- <select
+          name="tickets-table_length"
+          aria-controls="tickets-table"
+          name="pageSize"
+          [ngModel]="pageSize"
+          class="d-inline-block custom-select custom-select-sm form-control form-control-sm mx-2"
+          style="width: 65px;"
+          (ngModelChange)="handlePageSizeChange($event)"
+        >
+          <option [ngValue]="ps" *ngFor="let ps of allowedPageSizes">{{ ps }}</option>
+        </select> -->
+        <div
+          class="dataTables_info mb-2 d-inline-block"
+          id="tickets-table_info"
+          role="status"
+          aria-live="polite"
+          translate
+          [translateParams]="{
+            startIndex: startIndex,
+            endIndex: endIndex,
+            total: total
+          }"
+        >
+          Showing $startIndex - $endIndex of $total
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<ngx-category-edit #editDialog (onSuccess)="fetch()"></ngx-category-edit>
+
+<ngx-confirmation-dialog-box
+  #confirmDelete
+  [message]="'Are you sure to delete this record?' | translate"
+  [okText]="'YES' | translate"
+  [cancelText]="'NO' | translate"
+  (onOk)="deleteTemplate($event)"
+  type="danger"
+></ngx-confirmation-dialog-box>

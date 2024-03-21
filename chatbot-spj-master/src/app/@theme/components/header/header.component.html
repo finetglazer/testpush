@@ -1,0 +1,53 @@
+<div class="header-container">
+  <!-- <div class="logo-container"> -->
+  <div>
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle" *ngIf="hasBot()">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a class="logo d-none" href="#" style="cursor: pointer" (click)="navigateBot()">ChatBot</a>
+    <nb-select [selected]="currentBot" (selectedChange)="changeBot($event)" class="combobox" *ngIf="showListBot" status="basic" size="small">
+      <nb-option *ngFor="let bot of bots" [value]="bot.botCode"> {{ bot.botName }}</nb-option>
+    </nb-select>
+  </div>
+</div>
+
+<div class="header-container">
+  <div class="lang-select">
+    <a [title]="'English' | translate" class="mr-2" href="javascript:void(0)" (click)="changeLanguage('en')">
+      <span class="icon-bg" [class.icon-bg-primary]="currentLang === 'en'">
+        <i class="mficon-flag-en"></i>
+      </span>
+    </a>
+    <a [title]="'Vietnamese' | translate" href="javascript:void(0)" class="mr-2" (click)="changeLanguage('vi')">
+      <span class="icon-bg" [class.icon-bg-primary]="currentLang === 'vi'">
+        <i class="mficon-flag-vi"></i>
+      </span>
+    </a>
+    <a [title]="'Khmer' | translate" class="mr-2" href="javascript:void(0)" (click)="changeLanguage('km')">
+      <span class="icon-bg" [class.icon-bg-primary]="currentLang === 'km'">
+        <i class="mficon-flag-km"></i>
+      </span>
+    </a>
+  </div>
+  <div class="header-profile ml-4 mr-3"
+       [nbPopover]="profileOverlay"
+       nbPopoverPlacement="bottom-right">
+    <nb-user class="d-inline-flex" name="{{user?.sub}}" [color]="color" [showName]="false" [showTitle]="false">
+    </nb-user>
+    <div class="d-inline-flex">
+      <span>{{user?.sub}}</span>
+    </div>
+  </div>
+</div>
+<ng-template #profileOverlay>
+  <div class="header-profile-overlay">
+    <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" class="combobox" status="basic" size="small">
+      <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+    </nb-select>
+    <hr class="header-profile-separate"/>
+    <div class="logout">
+      <nb-icon icon="log-out-outline"></nb-icon>
+      <a routerLink="/auth/login" class="ml-2" translate>Log out</a>
+    </div>
+  </div>
+</ng-template>

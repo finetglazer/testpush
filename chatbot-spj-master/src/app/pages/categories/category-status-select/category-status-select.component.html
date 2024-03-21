@@ -1,0 +1,8 @@
+<ng-select
+  [items]="status"
+  bindLabel="label"
+  [placeholder]="'Select status' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleStatusChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

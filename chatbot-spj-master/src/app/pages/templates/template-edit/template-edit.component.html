@@ -1,0 +1,202 @@
+<ng-template #dialog>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold">{{ actionTitle }}</span>
+      <nb-icon icon="close-outline" (click)="dialogRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="templateCode" class="required" translate>Template code</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="templateCode"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.templateCode.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.templateCode.errors.required" translate>
+                Service code is required
+              </div>
+              <div *ngIf="fc.templateCode.errors.maxlength" translate>
+                Service code max length is 200
+              </div>
+              <div *ngIf="fc.templateCode.errors.pattern" translate>
+                Service code can only contains characters from [a-zA-Z0-9-_.]
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="status" class="required" translate>Status</label>
+            <ng-select
+              [items]="[
+                { label: 'Active' | translate, value: 1 },
+                { label: 'Inactive' | translate, value: 0 }
+              ]"
+              bindLabel="label"
+              bindValue="value"
+              [placeholder]="'Select status' | translate"
+              formControlName="status"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></ng-select>
+            <div *ngIf="submitted && fc.status.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.status.errors.required" translate>
+                Status is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="clazz" class="required" translate>Clazz</label>
+            <ngx-template-clazz-select
+              formControlName="clazz"
+              [firstOptionAsDefault]="action === 'add'"
+              [isInvalid]="submitted && fc.clazz.errors"
+            ></ngx-template-clazz-select>
+            <div *ngIf="submitted && fc.clazz.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.clazz.errors.required" translate>
+                Clazz is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="description" translate>Description</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="description"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.description.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.description.errors.maxlength" translate>
+                Description max length is 200
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 mt-3">
+            <label for="freemakerOutput" class="required" translate>Output</label>
+            <textarea
+              nbInput
+              rows="7"
+              fullWidth
+              formControlName="freemakerOutput"
+              [status]="submitted && fc.freemakerOutput.errors ? 'danger' : 'basic'"
+            ></textarea>
+            <div *ngIf="submitted && fc.freemakerOutput.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.freemakerOutput.errors.required" translate>
+                Output is required
+              </div>
+              <div *ngIf="fc.freemakerOutput.errors.maxlength" translate>
+                Output max length is 4000
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3">
+            <label for="service" translate>Service</label>
+            <ngx-template-service-select
+              #serviceSelector
+              [serviceValue]="selectedServiceId"
+              (onServiceValueChange)="selectedServiceId = $event"
+            ></ngx-template-service-select>
+          </div>
+          <div class="col-md-4 d-flex align-items-center mt-3">
+            <div class="mt-4">
+              <nb-icon status="success" class="mr-2" icon="paper-plane-outline" (click)="selectService()"></nb-icon>
+              <nb-icon status="primary" icon="plus-circle-outline" (click)="editServiceDialog.open('add')"></nb-icon>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <ngx-custom-bootstrap-table clazz="table">
+              <thead>
+                <th translate>No.</th>
+                <th translate>Actions</th>
+                <th translate>Service code</th>
+                <th translate>URL</th>
+                <th translate>Project</th>
+                <th translate>Request</th>
+                <th translate>Service type</th>
+                <th translate>Method</th>
+                <th translate>Order</th>
+              </thead>
+              <tbody formArrayName="mapTemplateService">
+                <tr *ngFor="let control of mapTemplateService.controls; let i = index">
+                  <ng-container [formGroupName]="i">
+                    <td class="align-baseline">
+                      {{ i + 1 }}
+                    </td>
+                    <td class="align-baseline px-0">
+                      <nb-icon
+                        icon="close-outline"
+                        status="danger"
+                        class="mr-2 action-btn"
+                        (click)="removeServiceMap(i)"
+                      ></nb-icon>
+                      <nb-icon
+                        icon="edit-outline"
+                        status="primary"
+                        class="action-btn"
+                        (click)="
+                          editServiceDialog.open('edit', { id: mapTemplateService.controls[i].get('serviceId').value })
+                        "
+                      ></nb-icon>
+                    </td>
+                    <td style="width: 150px; word-break: break-all;" class="align-baseline">
+                      {{ mapTemplateService.controls[i].get('serviceCode').value }}
+                    </td>
+                    <td style="width: 150px; word-break: break-all;" class="text-left align-baseline">
+                      {{ mapTemplateService.controls[i].get('url').value }}
+                    </td>
+                    <td class="align-baseline">
+                      {{ mapTemplateService.controls[i].get('project').value }}
+                    </td>
+                    <td style="width: 150px; word-break: break-all;" class="text-left align-baseline">
+                      {{ mapTemplateService.controls[i].get('request').value | truncate: 50 }}
+                    </td>
+                    <td class="align-baseline">
+                      {{ mapTemplateService.controls[i].get('type').value }}
+                    </td>
+                    <td class="align-baseline">
+                      {{ mapTemplateService.controls[i].get('method').value }}
+                    </td>
+                    <td class="align-baseline text-left">
+                      <input style="width: 110px;" [fullWidth]="false" type="number" nbInput [min]="0" formControlName="ord">
+                      <div *ngIf="submitted && mapTemplateService.controls[i].get('ord').errors" class="invalid-feedback d-block">
+                        <div *ngIf="mapTemplateService.controls[i].get('ord').errors.required" translate>
+                          Order is required
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </ngx-custom-bootstrap-table>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button
+              class="mr-2"
+              type="submit"
+              nbButton
+              status="primary"
+              [disabled]="submitted && form.invalid"
+              translate
+            >
+              Save
+            </button>
+            <button type="button" nbButton status="warning" (click)="dialogRef.close()" translate>Close</button>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+  <ngx-service-edit
+    #editServiceDialog
+    [disableStatusControl]="true"
+    (onSuccess)="handleAfterServiceCreated($event)"
+  ></ngx-service-edit>
+</ng-template>

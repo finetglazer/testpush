@@ -1,0 +1,95 @@
+i[class*="mficon-"] {
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 18px;
+  display: inline-block;
+  position: relative;
+}
+
+i.firstPage {
+  background-repeat: no-repeat;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  position: relative;
+  background-image: url('/assets/chatbot/icons/icFirstPage.svg');
+  background-position: center;
+}
+
+i.lastPage {
+  background-repeat: no-repeat;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  position: relative;
+  background-image: url('/assets/chatbot/icons/icLastPage.svg');
+  background-position: center;
+}
+
+i.prePage {
+  background-repeat: no-repeat;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  position: relative;
+  background-image: url('/assets/chatbot/icons/icPrePage.svg');
+  background-position: center;
+}
+
+i.nextPage {
+  background-repeat: no-repeat;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  position: relative;
+  background-image: url('/assets/chatbot/icons/icNextPage.svg');
+  background-position: center;
+}
+
+i.mficon-flag-vi {
+  width: 24px;
+  height: 24px;
+  background-image: url('/assets/chatbot/icons/flag_vi.svg');
+}
+
+i.mficon-flag-en {
+  width: 24px;
+  height: 24px;
+  background-image: url('/assets/chatbot/icons/flag_en.svg');
+}
+
+i.mficon-flag-km {
+  width: 24px;
+  height: 24px;
+  background-image: url('/assets/chatbot/icons/flag_km.svg');
+}
+
+i.mficon-website {
+  background-image: url('/assets/chatbot/icons/i_website.svg');
+  height: 24px;
+  width: 24px;
+}
+
+i.mficon-facebook {
+  background-image: url('/assets/chatbot/icons/i_facebook.svg');
+  height: 16px;
+  width: 16px;
+}
+
+i.mficon-instagram {
+  background-image: url('/assets/chatbot/icons/i_instagram.svg');
+  height: 16px;
+  width: 16px;
+}
+
+i.mficon-twitter {
+  background-image: url('/assets/chatbot/icons/i_twitter.svg');
+  height: 16px;
+  width: 16px;
+}
+
+i.mficon-youtube {
+  background-image: url('/assets/chatbot/icons/i_youtube.svg');
+  height: 16px;
+  width: 16px;
+}

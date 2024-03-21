@@ -1,0 +1,13 @@
+<div class="px-2 py-3" *ngIf="pageTitle || breadcrumbItems.length > 0">
+  <!-- <h5 class="mb-0">{{ pageTitle }}</h5> -->
+  <ol class="breadcrumb m-0 p-0 ml-auto">
+    <li class="breadcrumb-item" [title]="item.label" [class.active]="item.active" *ngFor="let item of breadcrumbItems">
+      <a routerLink="{{ item.path }}" *ngIf="!item.active" translate>
+        {{ item.label | truncate: 5:true }}
+      </a>
+      <span *ngIf="item.active" translate>
+        {{ item.label | truncate: 5:true }}
+      </span>
+    </li>
+  </ol>
+</div>

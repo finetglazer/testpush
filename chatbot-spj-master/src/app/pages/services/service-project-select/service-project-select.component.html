@@ -1,0 +1,19 @@
+<!-- <nb-select
+  [(selected)]="firstOptionAsDefault ? selected || projects[0] : selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleProjectChange()"
+  [status]="isInvalid ? 'danger' : 'primary'"
+>
+  <nb-option *ngIf="!firstOptionAsDefault" [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of projects">{{ m.itemName }}</nb-option>
+</nb-select> -->
+
+<ng-select
+  [items]="projects"
+  bindLabel="itemName"
+  [placeholder]="'Select project' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleProjectChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

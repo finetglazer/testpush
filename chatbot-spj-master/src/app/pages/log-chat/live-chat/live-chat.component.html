@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-lg-3">
+    <nb-card>
+      <nb-card-header>
+        <nb-form-field>
+          <input
+            class="w-100"
+            type="text"
+            nbInput
+            [(ngModel)]="inputSearch"
+            [placeholder]="'Search' | translate"
+          />
+          <nb-icon nbSuffix icon="search-outline" pack="eva"></nb-icon>
+        </nb-form-field>
+      </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item *ngFor="let userChat of userChats">
+              <nb-user class="d-inline-flex ml-2" [name]="userChat?.userName" [color]="userChat?.color" [showName]="false" [showTitle]="false"></nb-user>
+              <div class="d-inline-flex list-chat ml-2">
+                <div [title]="userChat?.userName">{{ userChat?.userName | truncate: 20 }}</div>
+                <div class="time mt-1">{{userChat?.lastChatDate | date: 'HH:mm dd/MM/yyyy'}}</div>
+                <div class="last-message mt-1">{{userChat?.lastContent | truncate:100 }}</div>
+              </div>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-lg-9">
+    <nb-card>
+      <nb-card-header>
+        <p class="bold mb-0">{{userChats[0]?.userName}}</p>
+        <p class="time mb-0 mt-1">{{userChats[0]?.lastChatDate | date: 'HH:mm dd/MM/yyyy'}}</p>
+      </nb-card-header>
+      <nb-card-body class="p-0">
+        <nb-chat size="large">
+          <nb-chat-message *ngFor="let msg of messages"
+                           type="text"
+                           [message]="msg.content"
+                           dateFormat="HH:mm dd/MM"
+                           reply="true"
+                           [date]="msg.createdDate">
+          </nb-chat-message>
+        </nb-chat>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+

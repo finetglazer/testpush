@@ -1,0 +1,110 @@
+<ngx-custom-bootstrap-table clazz="table table-sm">
+  <thead>
+    <th class="px-3" translate>No.</th>
+    <th translate>Request</th>
+    <th translate>Response</th>
+    <th translate>Service</th>
+    <th translate>Time</th>
+    <th translate>TransactionId</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of logAPIs; let i = index">
+      <td>
+        {{ pageSize * (page - 1) + i + 1 }}
+      </td>
+      <td
+        [title]="item.wsRequest"
+        class="text-left cursor-pointer"
+        style="width: 200px; word-break: break-word;"
+        (click)="showFullContent(item.wsRequest)"
+      >
+        {{ item.wsRequest | truncate: 50 }}
+      </td>
+      <td
+        [title]="item.wsResponse"
+        class="text-left cursor-pointer"
+        style="width: 200px; word-break: break-word;"
+        (click)="showFullContent(item.wsResponse)"
+      >
+        {{ item.wsResponse | truncate: 50 }}
+      </td>
+      <td>
+        {{ item.serviceCode || item.serviceId }}
+      </td>
+      <td>
+        {{ item.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}
+      </td>
+      <td>
+        <a href="javascript:void(0);" (click)="transIdSelected.emit(item.transId)">{{ item.transId }}</a>
+      </td>
+    </tr>
+    <tr *ngIf="logAPIs.length === 0">
+      <td class="text-center text-muted" colspan="11">
+        <span translate>No data</span>
+      </td>
+    </tr>
+  </tbody>
+</ngx-custom-bootstrap-table>
+<div *ngIf="logAPIs.length > 0" class="row justify-content-md-between align-items-md-center mt-2">
+  <div class="col-sm-12 col-md-5">
+    <div class="text-md-left float-md-left">
+      <ngb-pagination
+        #pagin
+        [collectionSize]="total"
+        [(page)]="page"
+        class="custom-paging"
+        [pageSize]="pageSize"
+        [maxSize]="5"
+        [boundaryLinks]="true"
+        (pageChange)="handlePageChange($event)"
+      >
+        <ng-template ngbPaginationFirst>
+          <nb-icon outline icon="arrowhead-left-outline"></nb-icon>
+        </ng-template>
+        <ng-template ngbPaginationLast>
+          <nb-icon outline icon="arrowhead-right-outline"></nb-icon>
+        </ng-template>
+        <ng-template ngbPaginationPrevious>
+          <nb-icon outline icon="arrow-ios-back-outline"></nb-icon>
+        </ng-template>
+        <ng-template ngbPaginationNext>
+          <nb-icon outline icon="arrow-ios-forward-outline"></nb-icon>
+        </ng-template>
+      </ngb-pagination>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-5 text-right">
+    <nb-select class="mr-3" size="small" [ngModel]="pageSize" (ngModelChange)="handlePageSizeChange($event)">
+      <nb-option [value]="ps" *ngFor="let ps of allowedPageSizes">{{ ps }}</nb-option>
+    </nb-select>
+    <div
+      class="dataTables_info mb-2 d-inline-block"
+      id="tickets-table_info"
+      role="status"
+      aria-live="polite"
+      translate
+      [translateParams]="{
+        startIndex: startIndex,
+        endIndex: endIndex,
+        total: total
+      }"
+    >
+      Showing $startIndex - $endIndex of $total
+    </div>
+  </div>
+</div>
+<ng-template #fullContent>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold" translate>Full content</span>
+      <nb-icon icon="close-outline" (click)="dialogFullContentRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-12">
+          <textarea rows="20" style="width: 800px">{{content}}</textarea>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

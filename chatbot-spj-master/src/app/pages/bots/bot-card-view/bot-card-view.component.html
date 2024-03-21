@@ -1,0 +1,72 @@
+<nb-card>
+  <nb-card-header>
+    <nb-user
+      class="d-inline-flex"
+      [name]="bot.botName"
+      [color]="color"
+      [showName]="false"
+      [showTitle]="false"
+      (click)="changeBot(bot.botCode)"
+    >
+    </nb-user>
+    <div class="d-inline-flex bot-name" (click)="changeBot(bot.botCode)">
+      <div [title]="bot.botName">{{ bot.botName | truncate: 15 }}</div>
+      <ngx-lang-icon class="w-100" [lang]="bot.language" [showTitle]="true"></ngx-lang-icon>
+    </div>
+    <div class="float-right">
+      <nb-icon
+        class="cursor-pointer position-absolute"
+        icon="more-vertical-outline"
+        [nbPopover]="botmenu"
+        nbPopoverPlacement="top-left"
+      ></nb-icon>
+    </div>
+  </nb-card-header>
+  <nb-card-body (click)="changeBot(bot.botCode)">
+    <div class="row">
+      <div class="col-6" translate>Last update</div>
+      <div class="col-6">{{ bot.createDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<ng-template #botmenu>
+  <div class="p-3 bot-menu">
+    <div class="mb-1 d-flex align-items-center cursor-pointer" (click)="botEdit.open('edit', bot)">
+      <nb-icon class="mr-1" icon="edit-outline"></nb-icon>
+      <span translate>Edit</span>
+    </div>
+    <!--<div class="mb-1 d-flex align-items-center cursor-pointer">
+      <nb-icon class="mr-1" icon="file-text-outline"></nb-icon>
+      <span translate>Scripts</span>
+    </div>
+    <div class="mb-1 d-flex align-items-center cursor-pointer">
+      <nb-icon class="mr-1" icon="book-outline"></nb-icon>
+      <span translate>Training data</span>
+    </div>
+    <div class="mb-1 d-flex align-items-center cursor-pointer">
+      <nb-icon class="mr-1" icon="message-circle-outline"></nb-icon>
+      <span translate>User messages</span>
+    </div>
+    <hr />
+    <div class="mb-1 d-flex align-items-center cursor-pointer">
+      <nb-icon class="mr-1" icon="copy-outline"></nb-icon>
+      <span translate>Clone this bot</span>
+    </div>-->
+    <div class="mb-1 d-flex align-items-center cursor-pointer" (click)="confirmDelete.open(bot)">
+      <nb-icon status="danger" class="mr-1" icon="trash-outline"></nb-icon>
+      <span class="text-danger" translate>Delete this bot</span>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-bot-edit #botEdit (onSuccess)="botUpdated.emit()"></ngx-bot-edit>
+
+<ngx-confirmation-dialog-box
+  #confirmDelete
+  [message]="'Are you sure to delete this record?' | translate"
+  [okText]="'YES' | translate"
+  [cancelText]="'NO' | translate"
+  (onOk)="deleteBot($event)"
+  type="danger"
+></ngx-confirmation-dialog-box>

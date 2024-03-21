@@ -1,0 +1,18 @@
+<!-- <nb-select
+  [(selected)]="firstOptionAsDefault ? selected || authTypes[0] : selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleAuthTypeChange()"
+>
+  <nb-option *ngIf="!firstOptionAsDefault" [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of authTypes">{{ m.itemName }}</nb-option>
+</nb-select> -->
+
+<ng-select
+  [items]="authTypes"
+  bindLabel="itemName"
+  [placeholder]="'Select auth type' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleAuthTypeChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

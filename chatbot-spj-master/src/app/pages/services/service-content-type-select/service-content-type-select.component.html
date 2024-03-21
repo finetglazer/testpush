@@ -1,0 +1,19 @@
+<!-- <nb-select
+  [(selected)]="selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleContentTypeChange()"
+  [status]="isInvalid ? 'danger' : 'primary'"
+>
+  <nb-option [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of contentTypes">{{ m.itemName }}</nb-option>
+</nb-select> -->
+
+<ng-select
+  [items]="contentTypes"
+  bindLabel="itemName"
+  [placeholder]="'Select content type' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleContentTypeChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

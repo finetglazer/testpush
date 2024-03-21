@@ -1,0 +1,137 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 65vw auto;
+  grid-template-rows: 100vh;
+  background-color: #fff;
+  ;
+}
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 0px 100vw;
+  }
+}
+
+.cover-container {
+  background-image: linear-gradient(180deg, rgba(255, 0, 0, 0) 38.13%, rgb(237 157 5 / 95%) 100%), url("/assets/chatbot/login-cover.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.form-container {
+  background-color: #fff;
+
+  .form-block {
+    max-width: 350px;
+    min-width: 300px;
+  }
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+
+  letter-spacing: -0.03em;
+
+  color: #000000;
+
+  opacity: 0.7;
+}
+
+input#captcha {
+  width: 50%;
+  display: inline-block;
+}
+
+.captcha-container {
+  display: inline-block;
+}
+
+label.custom-control-label {
+
+  &::before,
+  &::after {
+    top: 0.1rem !important;
+  }
+}
+
+#login-btn {
+  background: #d69312;
+  border-radius: 6px;
+  width: auto;
+  min-width: 100px;
+  height: 45px;
+  border: none;
+  margin-left: auto;
+
+  // text
+  text-transform: none!important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.chatbot-login {
+  font-size: xx-large;
+  font-weight: bold;
+  color: grey;
+}
+
+.slogan {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+
+  h1 {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 58px;
+    /* identical to box height */
+
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+  }
+}
+
+.contacts {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .hotline,
+  .website,
+  .social-group {
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #FFFFFF;
+
+    .white-bg {
+      background-color: #fff;
+      height: 24px;
+      width: 24px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      i {
+        margin: 0 auto;
+      }
+    }
+  }
+}

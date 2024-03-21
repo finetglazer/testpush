@@ -1,0 +1,18 @@
+<!-- <nb-select
+  [(selected)]="firstOptionAsDefault ? selected || services[0] : selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleServiceChange()"
+  [status]="isInvalid ? 'danger' : 'primary'"
+>
+  <nb-option *ngIf="!firstOptionAsDefault" [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of services">{{ m.serviceCode }}</nb-option>
+</nb-select> -->
+
+<ng-select
+  [items]="services"
+  bindLabel="serviceCode"
+  [placeholder]="'Select service' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleServiceChange()"
+></ng-select>

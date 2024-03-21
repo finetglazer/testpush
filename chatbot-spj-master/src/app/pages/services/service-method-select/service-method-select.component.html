@@ -1,0 +1,20 @@
+<!-- <nb-select
+  [(selected)]="selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleMethodChange()"
+  [status]="isInvalid ? 'danger' : 'primary'"
+>
+  <nb-option [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of methods">{{ m.itemName }}</nb-option>
+</nb-select>
+ -->
+
+<ng-select
+  [items]="methods"
+  bindLabel="itemName"
+  [placeholder]="'Select method' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleMethodChange()"
+  [ngClass]="{ 'ng-submitted': submitted, 'ng-invalid': ctrl?.invalid }"
+></ng-select>

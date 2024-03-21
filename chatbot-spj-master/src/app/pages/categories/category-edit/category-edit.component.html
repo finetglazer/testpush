@@ -1,0 +1,139 @@
+<ng-template #dialog>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold" translate>{{ actionTitle }}</span>
+      <nb-icon icon="close-outline" (click)="dialogRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="itemCode" class="required" translate>Code</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="itemCode"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.itemCode.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.itemCode.errors.required" translate>
+                Code is required
+              </div>
+              <div *ngIf="fc.itemCode.errors.maxlength" translate>
+                Code max length is 200
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="itemName" class="required" translate>Name</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="itemName"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.itemName.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.itemName.errors.required" translate>
+                Name is required
+              </div>
+              <div *ngIf="fc.itemName.errors.maxlength" translate>
+                Name max length is 200
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="categoryId" class="required" translate>Category</label>
+            <ngx-category-select formControlName="categoryId" [submitted]="submitted"></ngx-category-select>
+            <div *ngIf="submitted && fc.categoryId.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.categoryId.errors.required" translate>
+                Category is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="itemValue" class="required" translate>Value</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="itemValue"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.itemValue.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.itemValue.errors.required" translate>
+                Value is required
+              </div>
+              <div *ngIf="fc.itemValue.errors.maxlength" translate>
+                Value max length is 200
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="categoryParentId" translate>Parent category</label>
+            <ngx-category-select formControlName="categoryParentId" [submitted]="submitted"></ngx-category-select>
+          </div>
+          <div class="col-md-6">
+            <label for="parentId" [ngClass]="{ required: fc.categoryParentId.value != null }" translate>Parent</label>
+            <ngx-category-item-select
+              formControlName="parentId"
+              [categoryId]="fc.categoryParentId.value"
+              [submitted]="submitted"
+            ></ngx-category-item-select>
+            <div *ngIf="submitted && fc.parentId.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.parentId.errors.required" translate>
+                Parent is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="description" translate>Description</label>
+            <textarea
+              nbInput
+              rows="3"
+              fullWidth
+              formControlName="description"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></textarea>
+            <div *ngIf="submitted && fc.description.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.description.errors.maxlength" translate>
+                Description max length is 300
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="status" class="required" translate>Status</label>
+            <ngx-category-status-select formControlName="status" [firstOptionAsDefault]="action === 'add'" [submitted]="submitted"></ngx-category-status-select>
+            <div *ngIf="submitted && fc.status.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.status.errors.required" translate>
+                Status is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button
+              class="mr-2"
+              type="submit"
+              nbButton
+              status="primary"
+              [disabled]="submitted && form.invalid"
+              translate
+            >
+              Save
+            </button>
+            <button type="button" nbButton status="warning" (click)="dialogRef.close()" translate>Close</button>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

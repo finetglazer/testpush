@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+
+// themes - our custom or/and out of the box themes
+@import 'themes';
+
+// framework component themes (styles tied to theme variables)
+@import '~@nebular/theme/styles/globals';
+@import '~@nebular/auth/styles/all';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/grid';
+
+// loading progress bar theme
+@import './pace.theme';
+
+@import './layout';
+@import './overrides';
+
+@import './custom-icons';
+
+// install the framework and custom global styles
+@include nb-install() {
+
+  // framework global styles
+  @include nb-theme-global();
+  @include nb-auth-global();
+
+  @include ngx-layout();
+  // loading progress bar
+  @include ngx-pace-theme();
+
+  @include nb-overrides();
+};
+
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+.nb-theme-dark nb-sidebar,
+.nb-theme-default nb-sidebar {
+  width: 10rem;
+  .main-container {
+    width: 10rem;
+  }
+
+  &.compacted {
+    width: 3.5rem;
+    .main-container {
+      width: 3.5rem;
+    }
+  }
+  &.expanded {
+    width: 10rem;
+    .main-container {
+      width: 10rem;
+    }
+  }
+}
+
+nb-menu {
+  .menu-items {
+    .menu-item a span.menu-title {
+      max-width: 100%;
+      word-break: break-word;
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.required::after {
+  content: "*";
+  color: red;
+}
+input.ng-invalid.ng-submitted,
+textarea.ng-invalid.ng-submitted {
+  border-color: #dc3545 !important;
+}
+
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+ng-select.ng-invalid.ng-submitted .ng-select-container {
+  border-color: #dc3545 !important;
+}
+
+@include nb-install {
+
+  .header-profile-overlay {
+    background-color: nb-theme(background-basic-color-1);
+
+    .logout {
+      a {
+        color: nb-theme(text-basic-color);
+      }
+    }
+  }
+
+  .header-profile-separate {
+    background-color: nb-theme(border-basic-color-4);
+  }
+
+  // Ng select
+  .ng-select-container, .ng-dropdown-panel {
+    font-family: nb-theme(font-family-primary) !important;
+    color: nb-theme(text-basic-color) !important;
+    background-color: nb-theme(background-basic-color-2) !important;
+    border: 1px solid nb-theme(border-basic-color-4) !important;
+  }
+
+  .ng-option {
+    background-color: nb-theme(background-basic-color-1) !important;
+    color: nb-theme(text-basic-color) !important;
+  }
+
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+    background-color: #f5faff !important;
+    color: #333 !important;
+  }
+
+  .ng-select-container {
+    min-height: 40px;
+    .ng-input input {
+      color: nb-theme(text-basic-color) !important;
+    }
+  }
+
+  ng-select.ng-select-disabled {
+    .ng-select-container, .ng-dropdown-panel .ng-option {
+      background-color: nb-theme(color-basic-disabled) !important;
+    }
+  }
+
+  // div.ng-dropdown-panel-items .ng-option {
+  //   background-color: nb-theme(background-basic-color-1) !important;
+  //   color: nb-theme(text-basic-color) !important;
+  // }
+
+  // Pagination
+  ngb-pagination ul.pagination {
+    margin: 0;
+  }
+  ngb-pagination ul.pagination li a.page-link {
+    background-color: nb-theme(background-basic-color-1) !important;
+    color: nb-theme(text-basic-color) !important;
+    nb-icon {
+      font-size: 0.85rem;
+    }
+  }
+  select.d-inline-block, select.d-inline-block option{
+    background-color: nb-theme(background-basic-color-1) !important;
+    color: nb-theme(text-basic-color) !important;
+  }
+
+
+
+  .table th, .table td {
+    vertical-align: middle;
+    border: 0 !important;
+    color: nb-theme(text-basic-color) !important;
+  }
+
+  .table th {
+    background: nb-theme(background-basic-color-3);
+    padding: 16px 20px;
+
+    &:first-child {
+      padding: 16px 5px;
+    }
+  }
+
+  .table td {
+    background: nb-theme(background-basic-color-2);
+    padding: 12px 20px;
+    &:first-child {
+      padding: 16px 5px;
+    }
+  }
+
+  .table thead, .table tr {
+    border-bottom: 1px solid nb-theme(border-basic-color-1);
+  }
+
+  .table {
+    border: 1px solid nb-theme(border-basic-color-1);
+    //table-layout: fixed;
+    //word-wrap: break-word;
+  }
+
+  .page-link {
+    border: none !important;
+  }
+
+  .custom-paging {
+    .active {
+      .page-link {
+        background-color: nb-theme(color-basic-600) !important;
+        border-radius: 4px;
+        font-weight: bold;
+        color: nb-theme(text-basic-color) !important;
+      }
+    }
+  }
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1rem;
+  }
+
+}
+
+
+.bold {
+  font-weight: bold !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.nb-theme-default nb-toggle.status-primary .native-input:disabled + .toggle {
+  background-color: #3366ff;
+  border-color: #3366ff;
+  &:hover {
+    cursor: not-allowed;
+  }
+
+  .toggle-switcher {
+    background-color: #ffffff;
+    nb-icon {
+      color: #3366ff;
+    }
+  }
+}
+.nb-theme-dark nb-toggle.status-primary .native-input:disabled + .toggle {
+  background-color: #3366ff;
+  border-color: #3366ff;
+  &:hover {
+    cursor: not-allowed;
+  }
+
+  .toggle-switcher {
+    background-color: #222b45;
+    nb-icon {
+      color: #3366ff;
+    }
+  }
+}
+
+.w98 {
+  width: 98%;
+
+  nb-dialog-container, nb-card-body {
+    width: 100%;
+    max-width: 100% !important;
+  }
+
+}

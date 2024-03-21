@@ -1,0 +1,85 @@
+<ng-template #dialog>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold" translate>{{ actionTitle }}</span>
+      <nb-icon icon="close-outline" (click)="dialogRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label for="botName" class="required" translate>Name</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              maxlength="100"
+              formControlName="botName"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            />
+            <div *ngIf="submitted && fc.botName.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.botName.errors.required" translate>
+                Name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 mb-3" *ngIf="action === 'edit'">
+            <label for="botCode" translate>Code</label>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              maxlength="100"
+              formControlName="botCode"
+              disabled
+            />
+          </div>
+          <div class="col-md-12 mb-3">
+            <label for="language" class="required" translate>Language</label>
+            <nb-radio-group formControlName="language" [ngClass]="submitted ? 'ng-submitted' : ''">
+              <nb-radio value="vi" translate>Vietnamese</nb-radio>
+              <nb-radio value="en" translate>English</nb-radio>
+            </nb-radio-group>
+            <div *ngIf="submitted && fc.language.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.language.errors.required" translate>
+                Language is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label for="description" class="required" translate>Description</label>
+            <textarea
+              nbInput
+              rows="3"
+              fullWidth
+              maxlength="300"
+              formControlName="description"
+              [ngClass]="submitted ? 'ng-submitted' : ''"
+            ></textarea>
+            <div *ngIf="submitted && fc.description.errors" class="invalid-feedback d-block">
+              <div *ngIf="fc.description.errors.required" translate>
+                Description is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button
+              class="mr-2"
+              type="submit"
+              nbButton
+              status="primary"
+              [disabled]="submitted && form.invalid"
+              translate
+            >
+              Save
+            </button>
+            <button type="button" nbButton status="warning" (click)="dialogRef.close()" translate>Close</button>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

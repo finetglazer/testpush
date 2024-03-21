@@ -1,0 +1,30 @@
+@import '../../@theme/styles/themes.scss';
+
+@include nb-install-component {
+  table.table-bordered {
+    font-family: nb-theme(font-family-primary);
+    color: nb-theme(text-basic-color);
+    /* This will change the color when you switch the theme */
+  }
+  table {
+    font-size: .8rem;
+  }
+
+}
+
+:host ::ng-deep {
+  &>* {
+
+    th {
+      font-weight: 600;
+      text-align: center;
+      padding: 7.5px 40px
+    }
+
+    td {
+      text-align: center;
+      padding: 7.5px 10px;
+    }
+  }
+
+}

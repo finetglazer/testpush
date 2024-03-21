@@ -1,0 +1,18 @@
+<!-- <nb-select
+  [(selected)]="firstOptionAsDefault ? selected || clazzes[0] : selected"
+  fullWidth
+  [(ngModel)]="selected"
+  (ngModelChange)="handleClazzChange()"
+  [status]="isInvalid ? 'danger' : 'primary'"
+>
+  <nb-option *ngIf="!firstOptionAsDefault" [value]="undefined" translate>Select</nb-option>
+  <nb-option [value]="m" *ngFor="let m of clazzes">{{ m.itemName }}</nb-option>
+</nb-select> -->
+
+<ng-select
+  [items]="clazzes"
+  bindLabel="itemName"
+  [placeholder]="'Select class' | translate"
+  [(ngModel)]="selected"
+  (ngModelChange)="handleClazzChange()"
+></ng-select>

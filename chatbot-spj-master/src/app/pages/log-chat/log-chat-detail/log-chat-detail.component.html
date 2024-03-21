@@ -1,0 +1,81 @@
+<ng-template #dialog>
+  <nb-card>
+    <nb-card-header>
+      <span class="bold" translate>Chat log detail</span>
+      <nb-icon icon="close-outline" (click)="dialogRef.close()" class="cursor-pointer float-right"></nb-icon>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row mt-3">
+        <div class="col-md-3">
+          <label class="required" for="fromDate" translate>From date</label>
+          <input
+            nbInput
+            fullWidth
+            [nbDatepicker]="fromDatePicker"
+            [formControl]="fromDateCtrl"
+            (ngModelChange)="reload()"
+          />
+          <div *ngIf="fromDateCtrl.errors" class="invalid-feedback d-block">
+            <div *ngIf="fromDateCtrl.errors.required" translate>
+              From date is required
+            </div>
+            <div *ngIf="fromDateCtrl.errors.maxValue" translate>
+              From date must be less than to date
+            </div>
+          </div>
+          <nb-datepicker format="dd/MM/yyyy" #fromDatePicker></nb-datepicker>
+        </div>
+        <div class="col-md-3">
+          <label class="required" for="toDate" translate>To date</label>
+          <input
+            nbInput
+            fullWidth
+            [nbDatepicker]="toDatePicker"
+            [formControl]="toDateCtrl"
+            (ngModelChange)="reload()"
+          />
+          <div *ngIf="toDateCtrl.errors" class="invalid-feedback d-block">
+            <div *ngIf="toDateCtrl.errors.required" translate>
+              To date is required
+            </div>
+            <div *ngIf="toDateCtrl.errors.minValue" translate>
+              To date must be greater than from date
+            </div>
+          </div>
+          <nb-datepicker format="dd/MM/yyyy" #toDatePicker></nb-datepicker>
+        </div>
+        <div class="col-md-3">
+          <label for="username" translate>User</label>
+          <input type="text" disabled nbInput fullWidth [(ngModel)]="userName" (keydown.enter)="reload()" />
+        </div>
+        <div class="col-md-3">
+          <label for="username" disabled="" translate>UserId</label>
+          <input type="text" disabled nbInput fullWidth [(ngModel)]="userId" (keydown.enter)="reload()" />
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <span class="bold mb-3 d-inline-block" translate>Log template</span>
+          <ngx-log-chat-template-list
+            #templateList
+            [fromDate]="fromDateCtrl.value"
+            [toDate]="toDateCtrl.value"
+            [userId]="userId"
+            [userName]="userName"
+            (transIdSelected)="apiList.load($event)"
+          ></ngx-log-chat-template-list>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <span class="bold mb-3 d-inline-block" translate>Log API</span>
+          <ngx-log-chat-api-list
+            #apiList
+            [fromDate]="fromDateCtrl.value"
+            [toDate]="toDateCtrl.value"
+          ></ngx-log-chat-api-list>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</ng-template>

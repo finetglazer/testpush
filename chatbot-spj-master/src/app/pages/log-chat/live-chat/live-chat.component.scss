@@ -1,0 +1,20 @@
+nb-card-body {
+  padding: 1rem 0 !important;
+}
+
+nb-list-item:first-child {
+  border-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+nb-chat.status-basic .header {
+  display: none;
+}
+
+.list-chat {
+  flex-direction: column;
+}
+
+.time {
+  font-size: 12px;
+}
